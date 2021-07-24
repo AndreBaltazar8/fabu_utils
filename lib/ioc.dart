@@ -2,7 +2,7 @@ class Ioc {
   final _registeredTypes = Map<Type, _IocDef>();
   final _instances = Map<Type, dynamic>();
 
-  static Ioc _instance;
+  static Ioc? _instance;
 
   Ioc._();
   factory Ioc() => _instance ?? (_instance = Ioc._());
@@ -15,7 +15,7 @@ class Ioc {
       _assertOrThrow("Can\'t get type ${type.toString()}: type was not registered");
     }
 
-    if (!def.single)
+    if (!def!.single)
       return def.construct();
 
     return _instances[type] ?? (_instances[type] = def.construct());
@@ -55,7 +55,6 @@ class IocException implements Exception {
 
   @override
   String toString() {
-    if (message == null) return "IocException";
     return "IocException: $message";
   }
 }
