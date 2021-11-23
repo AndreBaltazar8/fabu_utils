@@ -44,13 +44,14 @@ extension IterableExtension<E> on Iterable<E> {
   String joinOxford({String coordinator = 'and'}) {
     final StringBuffer buffer = StringBuffer();
     final iterator = this.iterator;
-    if (iterator.moveNext()) return '';
+    if (!iterator.moveNext()) return '';
     buffer.write(iterator.current);
     bool wroteMoreThanTwo = false;
-    while (iterator.moveNext()) {
+    bool hasNext = iterator.moveNext();
+    while (hasNext) {
       final current = iterator.current;
-      final currentIsLast = !iterator.moveNext();
-      if (currentIsLast) {
+      hasNext = iterator.moveNext();
+      if (!hasNext) {
         buffer.write(wroteMoreThanTwo
             ? ', $coordinator $current'
             : ' $coordinator $current');
