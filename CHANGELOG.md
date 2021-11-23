@@ -1,3 +1,7 @@
-## [0.0.1] - TODO: Add release date.
+## [1.0.0] - 2021/11/23
 
-* TODO: Describe initial release.
+* Add IoC container.
+* Add `Disposable` class.
+* Add dynamic extensions for `let` and `also`.
+* Add string extensions `isNullOrEmpty` and `isNullOrWhitespace`.
+* Add iterable extensions `interlaceWith`, `separatedBy`, and `joinOxford`.
