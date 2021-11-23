@@ -1,14 +1,91 @@
-# fabu_utils
+# FABU Utils
 
-Utils package
+Extensions and other utilities for Dart and Flutter projects.
 
-## Getting Started
+[![pub package](https://img.shields.io/pub/v/fabu_utils.svg)](https://pub.dev/packages/fabu_utils)
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Examples
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### Extensions
+
+```dart
+void main() {
+  ' '.isNullOrWhitespace;
+  // output: true
+  
+  ['Item 1', 'Item 2', 'Item 3'].joinOxford();
+  // output: 'Item 1, Item 2, and Item 3'
+  
+  [1, 2, 3].interlaceWith([4, 5, 6]);
+  // output: [1, 4, 2, 5, 3, 6]
+  
+  [1, 2, 3].separatedBy((i) => 0);
+  // output: [1, 0, 2, 0, 3]
+  
+  [
+    Container(color: Colors.green),
+    Container(color: Colors.red),
+    Container(color: Colors.blue),
+  ].separatedBy((i) => Container(color: Colors.yellow));
+  // output: 
+  // [
+  //   Container(color: Colors.green),
+  //   Container(color: Colors.yellow),
+  //   Container(color: Colors.red),
+  //   Container(color: Colors.yellow),
+  //   Container(color: Colors.blue),
+  // ]
+}
+```
+
+### IoC container
+
+#### Singleton
+
+```dart
+void main() {
+  // Register class type
+  Ioc().registerSingle(() => TestClass());
+  // Get singleton instance
+  Ioc().get<TestClass>().test();
+  // prints: test called
+}
+
+class TestClass {
+  void test() {
+    print('test called');
+  }
+}
+```
+
+#### Factory
+
+```dart
+void main() {
+  int i = 0;
+  // Register class type
+  Ioc().register(() => TestClass(i++));
+  // Get instance of TestClass
+  Ioc().get<TestClass>().test();
+  // prints: test called 0
+  // Get instance of TestClass (creates new instance)
+  Ioc().get<TestClass>().test();
+  // prints: test called 1
+  
+  // or a simplified version using only int as type, creating a counter
+  int count = 0;
+  Ioc().register(() => count++);
+  Ioc().get<int>(); // returns 0
+  Ioc().get<int>(); // returns 1
+}
+
+class TestClass {
+  TestClass(this.i);
+
+  final int i;
+  
+  void test() {
+    print('test called $i');
+  }
+}
+```
